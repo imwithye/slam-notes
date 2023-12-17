@@ -140,4 +140,16 @@
 
 
 
-\subsection{SO(3)上的李代数求导}
+\subsection{SLAM中的位姿优化问题和李代数求导}
+我们首先来考虑下SLAM中的位姿优化问题。假设某个时刻，相机的位姿态为\(T\)，对于世界坐标中的一个点\(p\)来说，产生了一个观测数据\(z\)，很显然\(z=Tp\)。然而由于噪声的存在，通常\(e = z-Tp \neq 0\)。对于位姿优化问题来说，对于N个这样的路标点和观测，我们寻找
+\[
+    \mathop{argmin}\limits_{T} \sum_{i=1}^N ||z_i - Tp_i||^2_2
+\]
+我们用左乘\(\Delta R\)作为扰动，并且设\(\Delta R\)的李代数为\(\varphi\)，换言之\(\Delta R = e^{\varphi^\wedge}\)，那我们有
+\[
+    \frac{\partial Rp}{\partial \Delta R} = \frac{\partial Rp}{\partial \varphi} = \mathop{lim}\limits_{\varphi \rightarrow 0}\frac{e^{\varphi^\wedge} e^{\phi^\wedge} p - e^{\phi^\wedge} p}{\varphi} = -(Rp)^\wedge
+\]
+同样我们可以把求导扩展到\(SE(3)\)群上，我们有
+\[
+\frac{\partial Tp}{\partial \Delta T^\vee} = \begin{bmatrix}I & -(Tp)^\wedge \\ 0^T & 0^T\end{bmatrix}
+\]
