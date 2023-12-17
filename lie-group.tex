@@ -65,31 +65,24 @@
 \[
     SE(3) = \{T = \begin{bmatrix} R & t \\ 0^T & 1\end{bmatrix} \in \mathbb{R}^{4x4} | R \in SO(3), t \in R^3\}
 \]
-在\(SO(3)\)群和\(SE(3)\)群上，其都对乘法封闭，但对加法不封闭。
-\begin{definition}
-    李群是指具有连续光滑性质的群。
-\end{definition}
+在\(SO(3)\)群和\(SE(3)\)群上，其都对乘法封闭，但对加法不封闭。{\color{red} 李群是指具有连续光滑性质的群。}
 很显然\(SO(3)\)群和\(SE(3)\)群在实数空间上连续且平滑，因此他们都是李群。\\
 现在我们引入李代数，，每个李群都有与之对应的李代数。李代数描述了李群的局部性质，准确的说，是单位元附近的正切空间（正是函数\(R(t)\)的样子），一般李代数的定义如下：
-\begin{definition}
-    对于一个集合\(\mathbb{V}\)，数域\(\mathbb{F}\)，以及一个二元运算\([,]\)，有
-    \begin{itemize}
-        \item 封闭性，\(\forall X, Y \in \mathbb{V}, [X, Y] \in \mathbb{V}\)
-        \item 双线性，\(\forall X, Y, Z \in \mathbb{V}, a, b \in \mathbb{F}\)，有
-              \[
-                  [aX + bY, Z] = a[X, Z] + b[Y, Z]; [Z, aX + bY] = a[Z, X] + b[Z, Y]
-              \]
-        \item 自反性，\(\forall X \in \mathbb{V}, [X, X]=0\)
-        \item 雅可比等价，\(\forall X, Y, Z \in \mathbb{V}, [X, [Y, Z]] + [Z, [X, Y]] + [Y, [Z, X]] = 0\)
-    \end{itemize}
-\end{definition}
+对于一个集合\(\mathbb{V}\)，数域\(\mathbb{F}\)，以及一个二元运算\([,]\)，有
+\begin{itemize}
+    \item 封闭性，\(\forall X, Y \in \mathbb{V}, [X, Y] \in \mathbb{V}\)
+    \item 双线性，\(\forall X, Y, Z \in \mathbb{V}, a, b \in \mathbb{F}\)，有
+          \[
+              [aX + bY, Z] = a[X, Z] + b[Y, Z]; [Z, aX + bY] = a[Z, X] + b[Z, Y]
+          \]
+    \item 自反性，\(\forall X \in \mathbb{V}, [X, X]=0\)
+    \item 雅可比等价，\(\forall X, Y, Z \in \mathbb{V}, [X, [Y, Z]] + [Z, [X, Y]] + [Y, [Z, X]] = 0\)
+\end{itemize}
 二元运算又被称为李括号，粗看起来，李代数需要的性质还是挺多的，实际上，三维向量\(\mathbb{R}^3\)定义的的叉积是一种李括号，因此\((\mathbb{R}^3, \mathbb{R}, x)\)构成了一个李代数。{\color{red} 实际上，向量\(\phi\)也是一个李代数。}
-\begin{definition}
-    我们定义\(\Phi = \phi^\wedge\)，以及李括号
-    \[
-        [\phi_1, \phi_2] = (\Phi_1\Phi_2-\Phi_2\Phi_1)^\vee
-    \]
-\end{definition}
+我们定义\(\Phi = \phi^\wedge\)，以及李括号
+\[
+    [\phi_1, \phi_2] = (\Phi_1\Phi_2-\Phi_2\Phi_1)^\vee
+\]
 不难验证，\(\phi\)是一个李代数，其和李群\(SO(3)\)的对应关系为
 \[
     R = e^{\phi^\wedge}
@@ -98,12 +91,10 @@
 
 \subsection{矩阵的指数对数映射}
 刚刚我们得到了在局部范围的旋转矩阵的指数形式，
-\begin{definition}
-    矩阵的指数定义，设矩阵\(A\)为方阵，则
-    \[
-        e^A = \sum_{n=0}^{\infty}\frac{1}{n!}A^n
-    \]
-\end{definition}
+矩阵的指数定义，设矩阵\(A\)为方阵，则
+\[
+    e^A = \sum_{n=0}^{\infty}\frac{1}{n!}A^n
+\]
 然而，我们并不想引入无穷项的计算，对于李代数\(\phi\)来说，由于它是一个向量，我们可以定义\(\phi=\theta \mathbf{a}\)，其中\(\mathbf{a}\)为单位向量，\(\theta\)为模。我们发现
 \[
     \mathbf{a}^\wedge \mathbf{a}^\wedge = \mathbf{a} \mathbf{a}^T - I \\
