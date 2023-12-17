@@ -45,27 +45,99 @@
 \[
     R(t) \approx R(0) + R'(0)t = I + \phi(0)^\wedge I t = I + \phi(0)^\wedge t
 \]
+由此可见在原点附近，函数\(R(t)\)的导数在正切空间上。
 {\color{red} 暂时未能有明确解释：由此我们可见\(\phi(t)^\wedge\)在\(t=0\)附近几乎保持不变，我们可以假设其在\(t=0\)附近时，保持为常数\(\phi_0\)。由此我们得到在\(t=0\)附近时，我们有}
 \[
-    R'(t) = \phi_0 R(t)
+    R'(t) \approx \phi_0 R(t)
 \]
 这是一个很简单的微分方程，一个函数的导数等于其函数本身，我们很容易联想到指数函数，因此，我们可以得到其原函数为
 \[
-    R(t) = e^{\phi_0 t}
+    R(t) \approx e^{\phi_0 t}
 \]
 
 
 \subsection{李代数的引出}
 所有的旋转矩阵构成了群
 \[
-    SO(3) = {R \in 	\mathbb{R}}
+    SO(3) = \{R \in \mathbb{R}^{3x3} | RR^T = I, det(R) = 1\}
+\]
+所有的变换矩阵构成了群
+\[
+    SE(3) = \{T = \begin{bmatrix} R & t \\ 0^T & 1\end{bmatrix} \in \mathbb{R}^{4x4} | R \in SO(3), t \in R^3\}
+\]
+在\(SO(3)\)群和\(SE(3)\)群上，其都对乘法封闭，但对加法不封闭。
+\begin{definition}
+李群是指具有连续光滑性质的群。
+\end{definition}
+很显然\(SO(3)\)群和\(SE(3)\)群在实数空间上连续且平滑，因此他们都是李群。\\
+现在我们引入李代数，，每个李群都有与之对应的李代数。李代数描述了李群的局部性质，准确的说，是单位元附近的正切空间（正是函数\(R(t)\)的样子），一般李代数的定义如下：
+\begin{definition}
+对于一个集合\(\mathbb{V}\)，数域\(\mathbb{F}\)，以及一个二元运算\([,]\)，有
+\begin{itemize}
+    \item 封闭性，\(\forall X, Y \in \mathbb{V}, [X, Y] \in \mathbb{V}\)
+    \item 双线性，\(\forall X, Y, Z \in \mathbb{V}, a, b \in \mathbb{F}\)，有
+        \[
+            [aX + bY, Z] = a[X, Z] + b[Y, Z]; [Z, aX + bY] = a[Z, X] + b[Z, Y]
+        \]
+    \item 自反性，\(\forall X \in \mathbb{V}, [X, X]=0\)
+    \item 雅可比等价，\(\forall X, Y, Z \in \mathbb{V}, [X, [Y, Z]] + [Z, [X, Y]] + [Y, [Z, X]] = 0\)
+\end{itemize}
+\end{definition}
+二元运算又被称为李括号，粗看起来，李代数需要的性质还是挺多的，实际上，三维向量\(\mathbb{R}^3\)定义的的叉积是一种李括号，因此\((\mathbb{R}^3, \mathbb{R}, x)\)构成了一个李代数。{\color{red} 实际上，向量\(\phi\)也是一个李代数。}
+\begin{definition}
+我们定义\(\Phi = \phi^\wedge\)，以及李括号
+\[
+    [\phi_1, \phi_2] = (\Phi_1\Phi_2-\Phi_2\Phi_1)^\vee
+\]
+\end{definition}
+不难验证，\(\phi\)是一个李代数，其和李群\(SO(3)\)的对应关系为
+\[
+    R = e^{\phi^\wedge}
 \]
 
 
 \subsection{矩阵的指数对数映射}
-刚刚我们得到了在局部范围的旋转矩阵的指数形式，矩阵的指数定义如下
-设矩阵\(A\)为方阵，则
+刚刚我们得到了在局部范围的旋转矩阵的指数形式，
+\begin{definition}
+矩阵的指数定义，设矩阵\(A\)为方阵，则
 \[
     e^A = \sum_{n=0}^{\infty}\frac{1}{n!}A^n
 \]
-然而，我们并不想引入无穷项的计算
+\end{definition}
+然而，我们并不想引入无穷项的计算，对于李代数\(\phi\)来说，由于它是一个向量，我们可以定义\(\phi=\theta \mathbf{a}\)，其中\(\mathbf{a}\)为单位向量，\(\theta\)为模。我们发现
+\[
+    \mathbf{a}^\wedge \mathbf{a}^\wedge = \mathbf{a} \mathbf{a}^T - I \\
+    \mathbf{a}^\wedge \mathbf{a}^\wedge \mathbf{a}^\wedge = - \mathbf{a}^\wedge
+\]
+代入指数映射\(R = e^{\phi^\wedge}\)，我们得到
+\[
+    e^{\phi^\wedge}=cos \theta I + (1-cos \theta)\mathbf{a} \mathbf{a}^T + sin \theta \mathbf{a}^\wedge
+\]
+总结李代数和原旋转矩阵的映射关系，我们有
+\begin{figure}[H]
+    \includegraphics[width=1\linewidth]{images/lie-rotation-transformation.png}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\subsection{李代数求导与扰动模型}
+引入李代数是为了求导，然而李代数指数映射乘积的完整形式并不像普通的标量指数那么简单，这里有一个微小的扰动，其方程可以写成
+\[
+    ln(e^{\phi_1^\wedge}e^{\phi_2^\wedge})^\vee \approx \left\{ \begin{array}{cc} J_l(\phi_2)^{-1}\phi_1 + \phi_2 \text{\quad\quad 当\(\phi_1\)为小量}\\ J_r(\phi_1)^{-1}\phi_2 + \phi_1 \text{\quad\quad 当\(\phi_2\)为小量} \end{array} \right.
+\]
+其中
+\[
+    J_l=\frac{sin \theta}{\theta}I + (1-\frac{sin \theta}{\theta})\mathbf{a}\mathbf{a}^\wedge + \frac{1-cos \theta}{\theta}\mathbf{a}^\wedge
+\]
+\[
+    J_r(\phi)=J_l(-\phi)
+\]
+终于，我们可以将旋转矩阵的乘法转换成李代数的加法。{\color{red} 对于一个旋转矩阵\(R\)来说，当我们左乘一个小的变化量\(\Delta R\)，我们有}
+{\color{red}
+\[
+    \Delta R R = e^{\Delta \phi^\wedge}e^{\phi^\wedge} = e^{(\phi + J_l(\phi)^{-1}\Delta\phi)^\wedge}
+\]}
+
+
+
+\subsection{SO(3)上的李代数求导}
